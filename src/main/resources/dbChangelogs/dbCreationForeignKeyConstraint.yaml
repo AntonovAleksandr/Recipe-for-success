@@ -19,16 +19,23 @@ databaseChangeLog:
             validate: true
 
         - addForeignKeyConstraint:
-              constraintName: fk_steps_ingredients
+              constraintName: fk_steps_ingredients_ingredients
               baseTableName: steps_ingredients
               baseColumnNames: ingredient_id
               referencedTableName: ingredients
               referencedColumnNames: id
               validate: true
         - addForeignKeyConstraint:
-              constraintName: fk_steps_ingredients
+              constraintName: fk_steps_ingredients_steps
               baseTableName: steps_ingredients
               baseColumnNames: step_id
               referencedTableName: steps
+              referencedColumnNames: id
+              validate: true
+        - addForeignKeyConstraint:
+              constraintName: fk_storage_elements
+              baseTableName: storage_elements
+              baseColumnNames: product_id
+              referencedTableName: products
               referencedColumnNames: id
               validate: true

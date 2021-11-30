@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: dbCreationProductChangelog.yaml
+      relativeToChangelogFile: true

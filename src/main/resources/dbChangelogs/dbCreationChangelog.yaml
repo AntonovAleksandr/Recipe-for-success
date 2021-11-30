@@ -11,9 +11,3 @@ databaseChangeLog:
   - include:
       file: dbCreationStepsIngredientsChangelog.yaml
       relativeToChangelogFile: true
-  - include:
-      file: dbCreationStorageElementChangelog.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: dbCreationForeignKeyConstraint.yaml
-      relativeToChangelogFile: true

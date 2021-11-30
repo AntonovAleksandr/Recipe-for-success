@@ -20,18 +20,14 @@ public class Product {
     private Long id;
     @Column(name = "title")
     private String title;
+    @Column(name = "is_favorite")
+    private Boolean is_favorite;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
     private List<Step> recipe;
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
     private List<Ingredient> containsIn;
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    private List<StorageElement> productsInStorage;
 
-    @SneakyThrows
-    public Product(String title, List<Step> recipe) {
-        if(recipe.isEmpty()){
-            throw new BusinessException("The recipe must contain at least one step");
-        }
-        this.title = title;
-        this.recipe = recipe;
-    }
 }
