@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: antonov
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_ingredients_product
+            baseTableName: ingredients
+            baseColumnNames: product_id
+            referencedTableName: products
+            referencedColumnNames: id
+            validate: true
+        - addForeignKeyConstraint:
+            constraintName: fk_steps_product
+            baseTableName: steps
+            baseColumnNames: product_id
+            referencedTableName: products
+            referencedColumnNames: id
+            validate: true
+
+        - addForeignKeyConstraint:
+              constraintName: fk_steps_ingredients
+              baseTableName: steps_ingredients
+              baseColumnNames: ingredient_id
+              referencedTableName: ingredients
+              referencedColumnNames: id
+              validate: true
+        - addForeignKeyConstraint:
+              constraintName: fk_steps_ingredients
+              baseTableName: steps_ingredients
+              baseColumnNames: step_id
+              referencedTableName: steps
+              referencedColumnNames: id
+              validate: true

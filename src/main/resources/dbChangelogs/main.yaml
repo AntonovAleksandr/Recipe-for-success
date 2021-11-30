@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: dbCreationProductChangelog.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: dbCreationStepChangelog.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: dbCreationIngredientChangelog.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: dbCreationStepsIngredientsChangelog.yaml
+      relativeToChangelogFile: true

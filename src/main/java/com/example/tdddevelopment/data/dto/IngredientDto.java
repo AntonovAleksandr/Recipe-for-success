@@ -16,5 +16,5 @@ public class IngredientDto {
     private Double quantity;
     private Measure measure;
     private List<Step> steps;
-    private Product product;
+    private Product ingredient;
 }

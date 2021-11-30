@@ -19,6 +19,6 @@ public class StepDto {
     private Long id;
     private String img;
     private String desc;
-    private Product product;
+    private Product recipeOf;
     private List<Ingredient> ingredients;
 }

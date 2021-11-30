@@ -29,10 +29,10 @@ public class Ingredient {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
-    private Product product;
+    private Product ingredient;
 
     @SneakyThrows
-    public Ingredient(Double quantity, String measure, List<Step> steps, Product product) {
+    public Ingredient(Double quantity, String measure, List<Step> steps) {
         if(quantity < 0){
             throw new BusinessException("The quantity value must be positive");
         }
@@ -42,7 +42,6 @@ public class Ingredient {
         this.quantity = quantity;
         this.measure = measure;
         this.steps = steps;
-        this.product = product;
     }
 
     @SneakyThrows

@@ -22,8 +22,9 @@ public class Product {
     private String title;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
-    @Column(name = "recipe")
     private List<Step> recipe;
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    private List<Ingredient> containsIn;
 
     @SneakyThrows
     public Product(String title, List<Step> recipe) {

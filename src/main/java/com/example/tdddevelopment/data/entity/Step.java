@@ -23,10 +23,10 @@ public class Step {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
-    private Product product;
+    private Product recipeOf;
 
     @ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "ingredient_step",
+    @JoinTable(name = "steps_ingredients",
             joinColumns = @JoinColumn(name = "ingredient_id"),
             inverseJoinColumns = @JoinColumn(name = "step_id"))
     private List<Ingredient> ingredients;
