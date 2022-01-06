@@ -18,10 +18,18 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "search_frequency")
+    private Long searchFrequency;
+    @Column(name = "is_favorite")
+    private Boolean isFavorite;
+    @Column(name = "min_price")
+    private Double minPrice;
+    @Column(name = "max_price")
+    private Double maxPrice;
     @Column(name = "title")
     private String title;
-    @Column(name = "is_favorite")
-    private Boolean is_favorite;
+    @Column(name = "img")
+    private String img;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
     private List<Step> recipe;

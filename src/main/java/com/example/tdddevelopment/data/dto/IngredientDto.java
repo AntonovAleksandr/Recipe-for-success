@@ -16,19 +16,38 @@ import java.util.List;
 @AllArgsConstructor
 public class IngredientDto {
     private Long id;
+
     private Double quantity;
+
     private Measure measure;
-    private List<Step> steps;
+    private List<StepDto> steps;
     private ProductDto ingredient;
 
     @SneakyThrows
+    public void setQuantity(Double quantity) {
+        if (quantity == null)
+            throw new BusinessException("The quantity value cannot be null");
+        this.quantity = quantity;
+    }
+
+    public void setMeasure(Measure measure) {
+        this.measure = measure;
+    }
+
+    public void setIngredient(ProductDto ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    @SneakyThrows
     public IngredientDto(Double quantity, Measure measure, ProductDto ingredient) {
-//        if (quantity < 0) {
-//            throw new BusinessException("The quantity value must be positive");
-//        }
-//        if (quantity > 0 && measure == null) {
-//            throw new BusinessException("The measure value must be set");
-//        }
+        if (quantity == null)
+            throw new BusinessException("The quantity value cannot be null");
+        if (quantity < 0) {
+            throw new BusinessException("The quantity value must be positive");
+        }
+        if (quantity > 0 && measure == null) {
+            throw new BusinessException("The measure value must be set");
+        }
         this.quantity = quantity;
         this.measure = measure;
         this.ingredient = ingredient;

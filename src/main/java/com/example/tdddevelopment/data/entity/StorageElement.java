@@ -21,12 +21,10 @@ public class StorageElement {
     private Double quantity;
     @Column(name = "measure")
     private String measure;
-    @Column(name = "valid_until")
-    private Date validUntil;
     @Column(name = "is_open")
     private Boolean isOpen;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 }

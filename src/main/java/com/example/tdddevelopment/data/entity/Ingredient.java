@@ -1,15 +1,16 @@
 package com.example.tdddevelopment.data.entity;
 
 import com.example.tdddevelopment.data.excepptions.BusinessException;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@With
+@Builder
 @Entity
 @Table(name = "ingredients", schema = "public")
 public class Ingredient {
@@ -21,10 +22,10 @@ public class Ingredient {
     @Column(name = "measure")
     private String measure;
 
-    @ManyToMany(mappedBy = "ingredients")
+    @ManyToMany(mappedBy = "ingredients", fetch = FetchType.LAZY)
     private List<Step> steps;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product ingredient;
 }
