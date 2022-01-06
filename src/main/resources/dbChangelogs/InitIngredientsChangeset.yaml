@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 11
+      author: antonov
+      changes:
+          loadData:
+                  columns:
+                  - column:
+                      header: id
+                      name: id
+                      type: BIGINT
+                  - column:
+                      header: measure
+                      name: measure
+                      type: VARCHAR
+                  - column:
+                      header: quantity
+                      name: quantity
+                      type: FLOAT
+                  commentLineStartsWith: '#'
+                  encoding: UTF-8
+                  file: data/ingredients.csv
+                  quotchar: '"'
+                  separator: ','
+                  tableName: ingredients

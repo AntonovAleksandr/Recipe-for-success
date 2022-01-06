@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 10
+      author: antonov
+      changes:
+          loadData:
+                  columns:
+                  - column:
+                      header: id
+                      name: id
+                      type: BIGINT
+                  - column:
+                      header: title
+                      name: title
+                      type: STRING
+                  - column:
+                      header: is_favorite
+                      name: is_favorite
+                      type: BOOLEAN
+                  - column:
+                      header: search_frequency
+                      name: search_frequency
+                      type: BIGINT
+                  commentLineStartsWith: '#'
+                  encoding: UTF-8
+                  file: data/products.csv
+                  quotchar: '"'
+                  separator: ','
+                  tableName: products

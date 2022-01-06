@@ -33,8 +33,3 @@ databaseChangeLog:
                   type: BOOLEAN
                   constraints:
                     nullable: false
-              - column:
-                  name: valid_until
-                  type: DATE
-                  constraints:
-                    nullable: false

@@ -23,3 +23,23 @@ databaseChangeLog:
                   type: BOOLEAN
                   constraints:
                     nullable: false
+              - column:
+                  name: search_frequency
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: img
+                  type: VARCHAR
+                  constraints:
+                    nullable: true
+              - column:
+                  name: min_price
+                  type: FLOAT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: max_price
+                  type: FLOAT
+                  constraints:
+                    nullable: false
