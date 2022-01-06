@@ -16,7 +16,6 @@ public class StorageElementDto {
     private Double quantity;
     private Measure measure;
     private Boolean isOpen;
-    private Date validUntil;
 
     private ProductDto product;
 }
