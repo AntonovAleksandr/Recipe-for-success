@@ -31,7 +31,7 @@ public class Product {
     @Column(name = "img")
     private String img;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Step> recipe;
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
     private List<Ingredient> containsIn;

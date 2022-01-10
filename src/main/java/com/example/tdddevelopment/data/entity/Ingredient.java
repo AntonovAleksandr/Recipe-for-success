@@ -22,7 +22,7 @@ public class Ingredient {
     @Column(name = "measure")
     private String measure;
 
-    @ManyToMany(mappedBy = "ingredients", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "ingredients", fetch = FetchType.EAGER)
     private List<Step> steps;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

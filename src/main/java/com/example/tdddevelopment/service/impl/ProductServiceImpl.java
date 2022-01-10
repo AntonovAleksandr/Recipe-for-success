@@ -4,16 +4,21 @@ import com.example.tdddevelopment.data.dto.ProductDto;
 import com.example.tdddevelopment.data.dto.StepDto;
 import com.example.tdddevelopment.data.dto.StorageElementDto;
 import com.example.tdddevelopment.data.entity.Product;
+import com.example.tdddevelopment.data.entity.Step;
 import com.example.tdddevelopment.data.mapper.ProductMapper;
+import com.example.tdddevelopment.data.mapper.StepMapper;
 import com.example.tdddevelopment.data.mapper.StorageElementMapper;
 import com.example.tdddevelopment.data.repository.ProductRepository;
+import com.example.tdddevelopment.data.repository.StepRepository;
 import com.example.tdddevelopment.data.repository.StorageElementRepository;
 import com.example.tdddevelopment.service.ProductService;
 import com.example.tdddevelopment.service.SortingService;
+import com.example.tdddevelopment.service.impl.sortings.SortingBIngredientCountService;
+import com.example.tdddevelopment.service.impl.sortings.SortingByFrequencySearchingService;
+import com.example.tdddevelopment.service.impl.sortings.SortingByPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +29,8 @@ public class ProductServiceImpl implements ProductService {
     private final Map<String, SortingService> sorting = new HashMap<>();
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private StepRepository stepRepository;
     @Autowired
     private StorageElementRepository storageElementRepository;
 
@@ -71,7 +78,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void generateNewProductTemplate() {
-        saveProduct(new ProductDto("", List.of(new StepDto(1L)), -1L));
+        if (!containsTemplate())
+            saveProduct(new ProductDto("", List.of(new StepDto(1L)), -1L));
     }
 
     public void saveNewProductTemplate() {
@@ -82,8 +90,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void removeProductTemplate(){
-        Optional<Product> productTemplate = productRepository.findBySearchFrequency(-1L);
-        productRepository.deleteById(productTemplate.orElseThrow().getId());
+        if (containsTemplate()){
+            Optional<Product> productTemplate = productRepository.findBySearchFrequency(-1L);
+            productRepository.deleteById(productTemplate.orElseThrow().getId());
+        }
+
     }
 
     @Override
@@ -93,9 +104,48 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void addNewStepTemplate(ProductDto productDto) {
-        Optional<Product> productTemplate = productRepository.findBySearchFrequency(-1L);
+    public void addNewStepTemplate(Long id) {
+        if (productRepository.existsById(id)) {
+            Product template = productRepository.findById(id).orElse(null);
+            assert template != null;
+            List<Step> recipe = template.getRecipe();
+            Long newNumber = recipe.get(recipe.size() - 1).getNumber() + 1L;
+            Step stepTemplate = StepMapper.INSTANCE.dtoToStep(new StepDto(newNumber));
+            recipe.add(stepTemplate);
+            template.setRecipe(recipe);
+            productRepository.save(template);
+            stepRepository.save(stepTemplate);
 
+
+        }
     }
 
+    @Override
+    public boolean containsTemplate() {
+        return productRepository.findBySearchFrequency(-1L).isPresent();
+    }
+
+    @Override
+    public void incrementFrequencyById(Long id) {
+        Product product = productRepository.findById(id).orElseThrow();
+        product.setSearchFrequency(product.getSearchFrequency()+1);
+        productRepository.save(product);
+    }
+
+    @Override
+    public void changeFavorite(Long id, boolean isFavorite) {
+        Product product = productRepository.findById(id).orElseThrow();
+        product.setIsFavorite(isFavorite);
+        productRepository.save(product);
+    }
+//
+//    @Override
+//    public void addNewStepTemplate(ProductDto productDto) {
+//        Optional<Product> productTemplate = productRepository.findBySearchFrequency(-1L);
+//    }
+//
+//    private void saveStep(Long productId, StepDto stepDto){
+//        stepRepository.save(StepMapper.INSTANCE.dtoToStep(stepDto));
+//        stepRepository.find
+//    }
 }
