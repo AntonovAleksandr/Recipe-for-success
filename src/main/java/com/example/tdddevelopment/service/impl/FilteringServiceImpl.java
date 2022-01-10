@@ -11,13 +11,13 @@ public class FilteringServiceImpl implements FilteringService {
 
     private boolean between(ProductDto productDto, double min, double max) {
         if (productDto == null) return false;
-        return !(productDto.getMaxPrice() < min) || !(productDto.getMinPrice() > max);
+        return !(productDto.getMaxPrice() < min) && !(productDto.getMinPrice() > max);
     }
 
 
     @Override
     public List<ProductDto> priceFilter(List<ProductDto> products, double min, double max) {
-        if (products == null || products.isEmpty() || min < max || max < 0) return null;
+        if (products == null || products.isEmpty() || min > max || max < 0) return null;
         return products.stream().filter(e -> between(e, min, max)).collect(Collectors.toList());
     }
 
@@ -26,7 +26,6 @@ public class FilteringServiceImpl implements FilteringService {
         if (products == null || products.isEmpty() || ingredientsTitles == null || ingredientsTitles.isEmpty())
             return null;
         return null;
-        //return products.stream().filter(e -> e.getRecipe().size() ).collect(Collectors.toList());
     }
 
     @Override

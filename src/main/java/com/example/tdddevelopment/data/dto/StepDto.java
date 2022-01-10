@@ -5,10 +5,7 @@ import com.example.tdddevelopment.data.entity.Product;
 import com.example.tdddevelopment.data.enums.Measure;
 import com.example.tdddevelopment.data.excepptions.BusinessException;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.*;
 
 import javax.persistence.*;
 import java.awt.*;
@@ -18,6 +15,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@With
 public class StepDto {
     private Long id;
     private Long number;

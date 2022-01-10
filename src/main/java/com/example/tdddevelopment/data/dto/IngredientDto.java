@@ -4,16 +4,14 @@ import com.example.tdddevelopment.data.entity.Product;
 import com.example.tdddevelopment.data.entity.Step;
 import com.example.tdddevelopment.data.enums.Measure;
 import com.example.tdddevelopment.data.excepptions.BusinessException;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@With
 public class IngredientDto {
     private Long id;
 

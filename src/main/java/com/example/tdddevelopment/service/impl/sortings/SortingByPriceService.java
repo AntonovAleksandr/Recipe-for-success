@@ -15,8 +15,7 @@ public class SortingByPriceService implements SortingService {
     @Override
     public List<ProductDto> getSortedProducts(List<ProductDto> productList, boolean descending) {
         if (productList==null || productList.isEmpty()) return null;
-        if (descending) return productList.stream().sorted(Comparator.comparing(ProductDto::getMaxPrice)).distinct().collect(Collectors.toList());
+        if (descending) return productList.stream().sorted(Comparator.comparing(ProductDto::getMaxPrice).reversed()).collect(Collectors.toList());
         return  productList.stream().sorted((Comparator.comparing(ProductDto::getMinPrice))).collect(Collectors.toList());
-//        return ProductMapper.INSTANCE.productToDto(productRepository.findByOrderByMinPriceDesc());
     }
 }

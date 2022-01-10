@@ -4,10 +4,7 @@ import com.example.tdddevelopment.data.entity.Ingredient;
 import com.example.tdddevelopment.data.entity.Step;
 import com.example.tdddevelopment.data.entity.StorageElement;
 import com.example.tdddevelopment.data.excepptions.BusinessException;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.*;
 
 import javax.persistence.Column;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@With
 
 public class ProductDto {
     private Long id;
