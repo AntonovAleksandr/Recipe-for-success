@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>{{product.title}}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="../dist/css/album.css" rel="stylesheet">
+    <link rel="stylesheet" href="../dist/css/style.css">
+    <link rel="stylesheet" href="../dist/css/left-nav-style.css">
+</head>
+
+<body>
+<header>
+
+    <input type="checkbox" id="nav-toggle" hidden>
+    <nav class="nav">
+        <label for="nav-toggle" class="nav-toggle" style="left: 0; position: fixed"></label>
+        <h2 class="logo">
+            <a href="" class="text-light">Recipe for success</a>
+        </h2>
+        <ul>
+            <li><a href="/app/mainPage">Главная</a>
+            <li><a href="/app/personalAccountPage">Личный кабинет</a>
+            <li><a href="/app/barPage">Мой бар</a>
+            <li><a href="/app/newProductPage">Добавить рецепт</a>
+        </ul>
+    </nav>
+</header>
+
+
+<main style="place-content: center">
+    <div class="album py-5 bg-light" style="place-content: center">
+        <div class="container" style="place-content: center">
+            <h4 class="mb-3">{{product.title}}:</h4>
+            <div class="row" style="place-content: center">
+                <div style="width: 21rem;">
+                    <div class="card mb-4 box-shadow">
+                        <img class="card-img-top"
+                             data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text={{product.title}}"
+                        alt="Card image cap">
+                    </div>
+                </div>
+                <div style="width: 21rem;">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            {{#isIngredient}}
+                                <ul class="list-group mb-3">
+
+                                    {{#ingredients.recipe}}
+                                        <barItem>
+                                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                <div>
+                                                    <h6 class="my-0">{{ingredient.title}}</h6>
+                                                </div>
+                                                <span class="text-muted">{{quantity}} {{measure}}</span>
+                                            </li>
+                                        </barItem>
+                                    {{/ingredients.recipe}}
+
+                                </ul>
+
+                            {{/isIngredient}}
+                            {{^isIngredient}}
+
+                                <ul class="list-group mb-3">
+                                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                        <div>
+                                            <h6 class="my-0">This is a simple ingredient</h6>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            {{/isIngredient}}
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 21rem;">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <steps>
+                                <ul class="list-group mb-3">
+                                    {{#product.recipe}}
+                                        <barItem>
+                                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                <div>
+                                                    <h6 class="my-0">{{number}}</h6>
+                                                </div>
+                                                <div>
+                                                    <h6 class="my-0">img</h6>
+                                                </div>
+                                                <span class="text-muted">{{desc}}</span>
+                                            </li>
+                                        </barItem>
+                                    {{/product.recipe}}
+                                </ul>
+                            </steps>
+                            <p class="card-text">Price: {{product.minPrice}} - {{product.MaxPrice}}
+                                р.</p>
+                            {{#canBeCooked}}
+                                <ul style="color: #00C851">
+                                    <li>- can be cooked</li>
+                                </ul>
+                            {{/canBeCooked}}
+                            {{^canBeCooked}}
+                                <ul style="color: #b21f2d">
+                                    <li> - can`t be cooked</li>
+                                </ul>
+                            {{/canBeCooked}}
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <form action="/app/recipePage/update" method="post">
+                                        <input type="number" hidden="true" name="id"
+                                               value="{{product.id}}">
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                            Изменить
+                                        </button>
+                                    </form>
+                                    <form action="/app/recipePage" method="post">
+                                        <input type="number" hidden="true" name="id"
+                                               value="{{product.id}}">
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                            Приготовить
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer class="text-muted">
+    <div class="container">
+        <p class="float-right">
+            <a href="#">Back to top</a>
+        </p>
+        <p>&copy; Recipe of success, наша команда трудится, чтобы в вашей жизни было больше незабываемых моментов!</p>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../dist/js/jquery-slim.min.js"><\/script>')</script>
+<script src="../dist/js/popper.min.js"></script>
+<script src="../dist/js/bootstrap.min.js"></script>
+<script src="../dist/js/holder.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Recipe for success</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="../dist/css/album.css" rel="stylesheet">
+    <link rel="stylesheet" href="../dist/css/style.css">
+    <link rel="stylesheet" href="../dist/css/left-nav-style.css">
+    <link rel="stylesheet" href="../dist/css/bootstrap-multiselect.css" type="text/css"/>
+
+</head>
+
+<body>
+
+
+<input type="checkbox" id="nav-toggle" hidden>
+<nav class="nav">
+    <label for="nav-toggle" class="nav-toggle" style="left: 0; position: fixed"></label>
+    <h2 class="logo">
+        <a href="" class="text-light">Recipe for success</a>
+    </h2>
+    <ul>
+        <li><a href="/app/mainPage">Главная</a>
+        <li><a href="/app/personalAccountPage">Личный кабинет</a>
+        <li><a href="/app/barPage">Мой бар</a>
+        <li><a href="/app/newProductPage">Добавить рецепт</a>
+    </ul>
+</nav>
+
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Recipe of success</h1>
+        <p class="lead text-muted">В поисках рецепта, который изменит вашу жизнь!</p>
+    </div>
+</section>
+
+<main>
+    <div class="album py-5 bg-light">
+        <div class="container">
+        <div class="row" style="place-content: center">
+            {{#products}}
+                <product>
+                    <div style="width: 21rem; margin: 1rem;">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top"
+                                 data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text={{product.title}}"
+                            alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{product.title}}</h5>
+                                <form id="favoriteForm{{product.id}}" action="/app/favorite" method="GET">
+                                    <div class="custom-control custom-checkbox" style="place-content: flex-end">
+                                        <input type="number" hidden="true" name="id" value="{{product.id}}">
+                                        {{#product.isFavorite}}
+                                            <input type="checkbox" onchange="
+                                    document.getElementById('favoriteForm{{product.id}}').submit();"
+                                                   class="custom-control-input" name="favorite"
+                                                   id="favorite{{product.id}}" value="{{product.isFavorite}}" checked>
+                                        {{/product.isFavorite}}
+                                        {{^product.isFavorite}}
+                                            <input type="checkbox" onchange="
+                                    document.getElementById('favoriteForm{{product.id}}').submit();"
+                                                   class="custom-control-input" name="favorite"
+                                                   id="favorite{{product.id}}" value="{{product.isFavorite}}">
+                                        {{/product.isFavorite}}
+                                        <label class="custom-control-label"
+                                               for="favorite{{product.id}}">Нравится</label>
+                                    </div>
+                                </form>
+                                <p class="card-text">Цена: {{product.minPrice}} - {{product.MaxPrice}}р.</p>
+                                {{#canBeCooked}}
+                                    <ul style="color: #00C851">
+                                        <li>- можно приготовить</li>
+                                    </ul>
+                                {{/canBeCooked}}
+                                {{^canBeCooked}}
+                                    <ul style="color: #b21f2d">
+                                        <li> - недостаточно ингридиентов</li>
+                                    </ul>
+                                {{/canBeCooked}}
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <form action="/app/update" method="post">
+                                            <input type="number" hidden="true" name="id" value="{{product.id}}">
+                                            <button type="submit" class="btn btn-secondary my-2">Обновить
+                                            </button>
+                                        </form>
+                                        <form action="/app/recipePage" method="post">
+                                            <input type="number" hidden="true" name="id" value="{{product.id}}">
+                                            <button type="submit" class="btn btn-secondary my-2">Рецепт
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </product>
+                {{#isEndOfRow}}
+                </div>
+                <div class="row" style="place-content: center">
+                {{/isEndOfRow}}
+                {{^isEndOfRow}}
+                {{/isEndOfRow}}
+            {{/products}}
+        </div>
+        </div>
+    </div>
+</main>
+
+<footer class="text-muted">
+    <div class="container">
+        <div class="row" style="place-content: center  ">
+            <div class="col-md-6 mb-3">
+                <label for="state">Сортировать по:</label>
+                <form action="/app/mainPage" id="sortForm" method="post">
+                    <select oninput="document.getElementById('sortForm').submit();" class="custom-select d-block w-100"
+                            name="sortType" id="sortType"
+                            required>
+                        <option value="Frequency">Частоте поиска и по алфавиту</option>
+                        <option value="Price">Цене</option>
+                        <option value="Ingredient">Количеству ингредиентов</option>
+                    </select>
+                    {{^desc}}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="desc" id="desc" value="true">
+                            <label class="custom-control-label" for="desc">По убыванию</label>
+                        </div>
+                    {{/desc}}
+                    {{#desc}}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="desc" id="desc" value="true"
+                                   checked>
+                            <label class="custom-control-label" for="desc">По убыванию</label>
+                        </div>
+                    {{/desc}}
+                    <div class="col-md-5 mb-2">
+                        <button type="submit" class="btn btn-secondary my-2">Сортировать</button>
+                    </div>
+
+                </form>
+            </div>
+            <form class="row" action="/app/mainPage/find" id="findForm" method="post">
+                <div class="col-md-7 mb-3">
+
+                    <label for="title">Поиск по названию</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="title"
+                               placeholder="product title" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Product title is required.
+                        </div>
+                    </div>
+
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="same-address">
+                        <label class="custom-control-label" for="same-address">Полное совпадение</label>
+                    </div>
+                </div>
+                <div class="col-md-5 mb-4">
+                    <button type="submit" class="btn btn-secondary my-2">Найти</button>
+                </div>
+
+            </form>
+            <form class="row" action="/app/mainPage/price" id="findForm" method="post">
+                <div class="col-md-6 mb-2">
+
+                    <label for="title">Минимальная цена</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="min"
+                               placeholder="product title" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Product title is required.
+                        </div>
+                    </div>
+                    <label for="title">Максимальная цена</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="min"
+                               placeholder="product title" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Product title is required.
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6 mb-2">
+                    <label for="title">Ингридиенты</label>
+                    <div class="input-group">
+                        <!-- Note the missing multiple attribute! -->
+                        <select class="multiselect-filter" multiple data-mdb-clear-button="true" multiple data-mdb-placeholder="Example placeholder" name="value[]" id="multiple-selected" multiple>
+                            {{#ingredients}}
+                                <option value={{title}}>{{title}}</option>
+                            {{/ingredients}}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-secondary my-2">Отфильтровать</button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="invalid-feedback">
+            Please provide a valid state.
+        </div>
+    </div>
+    <div class="container">
+        <p class="float-right">
+            <a href="#">Back to top</a>
+        </p>
+        <p>&copy; Recipe of success, наша команда трудится, чтобы в вашей жизни было больше незабываемых моментов!</p>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="../dist/js/jquery.min.js"></script>
+<script type="text/javascript" src="../dist/js/bootstrap.min.js"></script>
+
+<!-- Include the plugin's CSS and JS: -->
+<script type="text/javascript" src="../dist/js/bootstrap-multiselect.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../dist/js/jquery-slim.min.js"><\/script>')</script>
+<script src="../dist/js/popper.min.js"></script>
+<script src="../dist/js/bootstrap.min.js"></script>
+<script src="../dist/js/holder.min.js"></script>
+<script>$("#sortType").val('{{sortType}}')</script>
+</body>
+</html>

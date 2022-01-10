@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Personal account</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="../dist/css/album.css" rel="stylesheet">
+    <link rel="stylesheet" href="../dist/css/style.css">
+    <link rel="stylesheet" href="../dist/css/left-nav-style.css">
+</head>
+
+<body>
+<header>
+
+
+    <input type="checkbox" id="nav-toggle" hidden>
+    <nav class="nav">
+        <label for="nav-toggle" class="nav-toggle" style="left: 0; position: fixed"></label>
+        <h2 class="logo">
+            <a href="" class="text-light">Recipe for success</a>
+        </h2>
+        <ul>
+            <li><a href="/app/mainPage">Главная</a>
+            <li><a href="/app/personalAccountPage">Личный кабинет</a>
+            <li><a href="/app/barPage">Мой бар</a>
+            <li><a href="/app/newProductPage">Добавить рецепт</a>
+        </ul>
+    </nav>
+
+</header>
+
+<main>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row md-8">
+                <div class="col-md-3 order-md-1">
+                    <h4 class="mb-3">My bar items:</h4>
+                    <ingredients>
+                        <ul class="list-group mb-3">
+                            {{#bar}}
+                                <barItem>
+                                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                        <div>
+                                            <h6 class="my-0">{{product.title}}</h6>
+                                        </div>
+                                        <span class="text-muted">{{quantity}} {{measure}}</span>
+                                    </li>
+                                </barItem>
+                            {{/bar}}
+                        </ul>
+                    </ingredients>
+                </div>
+                <div class="col-md-8 order-md-1 mb-2">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">My favorites cocktails:</span>
+                    </h4>
+                    <div class="container">
+                    <div class="row">
+                        {{#favourites}}
+                            <product>
+                                <div style="width: 21rem; margin: 1rem;">
+                                    <div class="card mb-4 box-shadow">
+                                        <img class="card-img-top"
+                                             data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text={{product.title}}"
+                                        alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{product.title}}</h5>
+                                            <form id="favoriteForm{{product.id}}" action="/app/personalAccountPage" method="post">
+                                                <div class="custom-control custom-checkbox" style="place-content: flex-end">
+                                                    <input type="number" hidden="true" name="id" value="{{product.id}}">
+                                                    {{#product.isFavorite}}
+                                                        <input type="checkbox" onchange="
+                                    document.getElementById('favoriteForm{{product.id}}').submit();"
+                                                               class="custom-control-input" name="favorite" id="favorite{{product.title}}" value="{{product.isFavorite}}" checked>
+                                                    {{/product.isFavorite}}
+                                                    {{^product.isFavorite}}
+                                                        <input type="checkbox" onchange="
+                                    document.getElementById('favoriteForm{{product.id}}').submit();"
+                                                               class="custom-control-input" name="favorite" id="favorite{{product.title}}" value="{{product.isFavorite}}">
+                                                    {{/product.isFavorite}}
+                                                    <label class="custom-control-label" for="favorite{{product.title}}">Нравится</label>
+                                                </div>
+                                            </form>
+                                            <p class="card-text">Цена: {{product.minPrice}} - {{product.MaxPrice}}р.</p>
+                                            {{#canBeCooked}}
+                                                <ul style="color: #00C851">
+                                                    <li>- можно приготовить</li>
+                                                </ul>
+                                            {{/canBeCooked}}
+                                            {{^canBeCooked}}
+                                                <ul style="color: #b21f2d">
+                                                    <li> - недостаточно ингридиентов</li>
+                                                </ul>
+                                            {{/canBeCooked}}
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <form action="/app/update" method="post">
+                                                        <input type="number" hidden="true" name="id" value="{{product.id}}">
+                                                        <button type="submit" class="btn btn-secondary my-2">Обновить
+                                                        </button>
+                                                    </form>
+                                                    <form action="/app/recipePage" method="post">
+                                                        <input type="number" hidden="true" name="id" value="{{product.id}}">
+                                                        <button type="submit" class="btn btn-secondary my-2">Рецепт
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </product>
+                            {{#isEndOfRow}}
+                            </div>
+                            <div class="row" style="place-content: center">
+                            {{/isEndOfRow}}
+                            {{^isEndOfRow}}
+                            {{/isEndOfRow}}
+                        {{/favourites}}
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="text-muted">
+    <div class="container">
+        <p class="float-right">
+            <a href="#">Back to top</a>
+        </p>
+        <p>&copy; Recipe of success, наша команда трудится, чтобы в вашей жизни было больше незабываемых моментов!</p>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../dist/js/jquery-slim.min.js"><\/script>')</script>
+<script src="../dist/js/popper.min.js"></script>
+<script src="../dist/js/bootstrap.min.js"></script>
+<script src="../dist/js/holder.min.js"></script>
+</body>
+</html>
